@@ -25,8 +25,12 @@ def create_meme(img, text):
     text_box = Image.new("RGB", (final_w, text_h), "white")
     draw = ImageDraw.Draw(text_box)
 
-    try: font = ImageFont.truetype("arialbd.ttf", 60)
-    except: font = ImageFont.load_default()
+    # --- Updated font path ---
+    font_path = os.path.join("fonts", "arialbd.ttf")
+    try:
+        font = ImageFont.truetype(font_path, 60)
+    except:
+        font = ImageFont.load_default()
 
     lines = textwrap.wrap(text, width=25)
     line_h = font.getbbox("A")[3]
@@ -64,7 +68,7 @@ if generate and uploaded_images and uploaded_text:
 
     with zipfile.ZipFile(zip_buffer, "w") as z:
         for idx, img_file in enumerate(uploaded_images):
-            if idx >= len(captions): break  # stop if more images than text
+            if idx >= len(captions): break
             img = Image.open(img_file)
             meme = create_meme(img, captions[idx])
 
