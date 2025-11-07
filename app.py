@@ -28,9 +28,14 @@ def create_meme(img, text):
     canvas = Image.new("RGB", (final_w, final_h), "white")
 
     # --- Auto font scaling based on text box height ---
-    base_font_size = int(text_h * 0.10)
-    min_font = 50
+    base_font_size = int(text_h * 0.10) + 30  # +30 boost
+    min_font = 80  # raise minimum to keep text bold on mobile
     font_size = max(base_font_size, min_font)
+    
+    try:
+        font = ImageFont.truetype("arialbd.ttf", font_size)
+    except:
+        font = ImageFont.load_default()
 
     try:
         font = ImageFont.truetype("arialbd.ttf", font_size)
@@ -100,3 +105,4 @@ if generate and uploaded_images and uploaded_text:
     )
 else:
     st.caption("Upload images + text, then hit Generate ✅")
+
